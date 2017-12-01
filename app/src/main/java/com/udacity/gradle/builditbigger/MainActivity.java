@@ -3,6 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.shoji.example.android.javajokes.Joker;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 com.shoji.example.android.androidjokes.ui.MainActivity.class);
         intent.putExtra(com.shoji.example.android.androidjokes.ui.MainActivity.EXTRA_JOKE_TEXT, joke);
         startActivity(intent);
+
+        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
 

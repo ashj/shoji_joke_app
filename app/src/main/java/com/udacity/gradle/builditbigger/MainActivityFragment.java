@@ -36,7 +36,7 @@ public class MainActivityFragment extends Fragment {
         mAdView.loadAd(adRequest);
 
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(getContext(), "Manfred"));
+
 
         return root;
     }
