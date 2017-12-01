@@ -10,11 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.shoji.example.android.javajokes.Joker;
 import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+    implements EndpointsAsyncTask.OnFetchJokeFinishedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +45,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) {
-        Joker joker = new Joker();
-        String joke = joker.getJoke();
-        Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
-
+    public void onClickTellJoke(View view) {
         Context context = this;
-        Intent intent = new Intent(context,
-                com.shoji.example.android.androidjokes.ui.MainActivity.class);
-        intent.putExtra(com.shoji.example.android.androidjokes.ui.MainActivity.EXTRA_JOKE_TEXT, joke);
-        startActivity(intent);
-
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        EndpointsAsyncTask.OnFetchJokeFinishedListener handler = this;
+        new EndpointsAsyncTask(context, handler).execute(new Pair<Context, String>(this, "Manfred"));
     }
 
 
+    @Override
+    public void onFetchJokeFinished(String result) {
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Context context = this;
+        Intent intent = new Intent(context,
+                com.shoji.example.android.androidjokes.ui.MainActivity.class);
+        intent.putExtra(com.shoji.example.android.androidjokes.ui.MainActivity.EXTRA_JOKE_TEXT, result);
+        startActivity(intent);
+    }
 }

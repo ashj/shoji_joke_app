@@ -18,6 +18,17 @@ import java.io.IOException;
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private static JokerApi myApiService = null;
     private Context mContext;
+    private OnFetchJokeFinishedListener mOnFetchJokeHandler;
+
+    public interface OnFetchJokeFinishedListener {
+        void onFetchJokeFinished(String result);
+    }
+
+    public EndpointsAsyncTask(Context context,
+                              OnFetchJokeFinishedListener onFetchJokeFinishedHandler) {
+        mContext = context;
+        mOnFetchJokeHandler = onFetchJokeFinishedHandler;
+    }
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -51,6 +62,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();
+        mOnFetchJokeHandler.onFetchJokeFinished(result);
+
     }
 }
