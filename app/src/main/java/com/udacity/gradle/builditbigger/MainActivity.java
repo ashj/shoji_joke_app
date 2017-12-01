@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     public void onClickTellJoke(View view) {
         Context context = this;
         EndpointsAsyncTask.OnFetchJokeFinishedListener handler = this;
-        new EndpointsAsyncTask(context, handler).execute(new Pair<Context, String>(this, "Manfred"));
+        new EndpointsAsyncTask(context, handler).execute();
     }
 
 

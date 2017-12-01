@@ -2,20 +2,19 @@ package com.udacity.gradle.builditbigger.endpoint;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.util.Pair;
-import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+// Do not remove import bellow.
 import com.udacity.gradle.builditbigger.backend.jokerApi.JokerApi;
 
 import java.io.IOException;
 
 
 
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     private static JokerApi myApiService = null;
     private Context mContext;
     private OnFetchJokeFinishedListener mOnFetchJokeHandler;
@@ -31,7 +30,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     }
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(Void... voids) {
         if(myApiService == null) {  // Only do this once
             JokerApi.Builder builder = new JokerApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -50,15 +49,13 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
             myApiService = builder.build();
         }
 
-        mContext = params[0].first;
-        String name = params[0].second;
-
         try {
-            return myApiService.tellJoke(name).execute().getData();
+            return myApiService.tellJoke().execute().getData();
         } catch (IOException e) {
             return e.getMessage();
         }
     }
+
 
     @Override
     protected void onPostExecute(String result) {
