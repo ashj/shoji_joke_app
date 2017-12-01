@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
@@ -16,10 +17,15 @@ import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
 public class MainActivity extends AppCompatActivity
     implements EndpointsAsyncTask.OnFetchJokeFinishedListener {
 
+    private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mProgressBar = findViewById(R.id.fragment_main_progressbar);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClickTellJoke(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+
         Context context = this;
         EndpointsAsyncTask.OnFetchJokeFinishedListener handler = this;
         new EndpointsAsyncTask(context, handler).execute();
@@ -54,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFetchJokeFinished(String result) {
+        mProgressBar.setVisibility(View.INVISIBLE);
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         Context context = this;
         Intent intent = new Intent(context,

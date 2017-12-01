@@ -32,6 +32,7 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         if(myApiService == null) {  // Only do this once
+
             JokerApi.Builder builder = new JokerApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
