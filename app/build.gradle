@@ -22,17 +22,22 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+//    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.google.android.gms:play-services-ads:11.6.2'
 
-    // Only the backend use the javaJokes library
-    //compile project(':javaJokes')
 
+    androidTestCompile project(':javaJokes')
     compile project(':androidJokes')
     compile project(path: ':backend', configuration: 'android-endpoints')
+
     compile 'com.google.code.findbugs:jsr305:2.0.1'
+
+    //espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
 
 }

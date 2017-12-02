@@ -6,6 +6,8 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.shoji.example.android.javajokes.Joker;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +44,11 @@ public class MainActivityBasicTest {
         IdlingRegistry.getInstance().register(mIdlingResource);
     }
 
-
+/*
+Need backend running to perfom this test.
+This test simulate a click in the button, then check if the joke displayed
+is the same from javaJoke.
+ */
     @Test
     public void testGetJokeButton() {
         String label = "TELL JOKE";
@@ -52,19 +58,9 @@ public class MainActivityBasicTest {
         onView(withId(R.id.fragment_main_tell_joke_button))
                 .perform(click());
 
-//        onView(withId(R.id.activity_recipe_master_list))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(ingredientPosition, click()));
-//
-//        onView(withId(R.id.activity_recipe_ingredients))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(ingredientListPosition, click()));
-//               //check(matches(withText(text))));
-//
-//        onView(withId(R.id.activity_recipe_ingredients))
-//                .perform(scrollToPosition(ingredientListPosition))
-//                .check(matches(atPosition(ingredientListPosition, withText(text))));
-
-
-
+        Joker joker = new Joker();
+        onView(withId(R.id.activity_main_textview_joke))
+                .check(matches(withText(joker.getJoke())));
     }
 
     @After
