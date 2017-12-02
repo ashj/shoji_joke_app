@@ -1,9 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
@@ -18,7 +21,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -26,46 +29,43 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityBasicTest {
+public class MainActivityIntentBasicTest {
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule =
-            new ActivityTestRule(MainActivity.class);
+    public IntentsTestRule<MainActivity> mIntentsTestRule =
+            new IntentsTestRule(MainActivity.class);
 
     private IdlingResource mIdlingResource;
 
     // Registers any resource that needs to be synchronized with Espresso before the test is run.
     @Before
     public void registerIdlingResource() {
-        mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
+        mIdlingResource = mIntentsTestRule.getActivity().getIdlingResource();
         // To prove that the test fails, omit this call:
         //Espresso.registerIdlingResources(mIdlingResource);
         IdlingRegistry.getInstance().register(mIdlingResource);
     }
 
+    @Before
+    public void stubAllExternalIntents() {
+        // By default Espresso Intents does not stub any Intents. Stubbing needs to be setup before
+        // every test run. In this case all external Intents will be blocked.
+        intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
+    }
 
+    /*
+    Tests if MainActivity sends a joke in EXTRA_JOKE_TEXT
+     */
     @Test
-    public void testGetJokeButton() {
-        String label = "TELL JOKE";
-        // Main activity, click on first
+    public void testJokeButtonSendIntentWithExtra() {
         onView(withId(R.id.fragment_main_tell_joke_button))
                 .check(matches(withText(R.string.button_text)));
         onView(withId(R.id.fragment_main_tell_joke_button))
                 .perform(click());
 
-//        onView(withId(R.id.activity_recipe_master_list))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(ingredientPosition, click()));
-//
-//        onView(withId(R.id.activity_recipe_ingredients))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(ingredientListPosition, click()));
-//               //check(matches(withText(text))));
-//
-//        onView(withId(R.id.activity_recipe_ingredients))
-//                .perform(scrollToPosition(ingredientListPosition))
-//                .check(matches(atPosition(ingredientListPosition, withText(text))));
-
-
-
+        intended(allOf(
+                hasExtraWithKey(com.shoji.example.android.androidjokes.ui.MainActivity.EXTRA_JOKE_TEXT)));
     }
+
 
     @After
     public void unregisterIdlingResource() {
