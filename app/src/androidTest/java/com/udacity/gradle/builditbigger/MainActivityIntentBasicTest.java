@@ -1,9 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -40,15 +37,12 @@ public class MainActivityIntentBasicTest {
     @Before
     public void registerIdlingResource() {
         mIdlingResource = mIntentsTestRule.getActivity().getIdlingResource();
-        // To prove that the test fails, omit this call:
         //Espresso.registerIdlingResources(mIdlingResource);
         IdlingRegistry.getInstance().register(mIdlingResource);
     }
 
     @Before
     public void stubAllExternalIntents() {
-        // By default Espresso Intents does not stub any Intents. Stubbing needs to be setup before
-        // every test run. In this case all external Intents will be blocked.
         intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
     }
 
