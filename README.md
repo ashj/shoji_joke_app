@@ -7,3 +7,7 @@ Go to terminal, then run:
 The symbol will be generated at build time, so everything will (hopefully) work in the end.
 
 Just run the backend project first, then the app project.
+
+# Tests
+Run
+gradle -q jokeConnectedCheck
