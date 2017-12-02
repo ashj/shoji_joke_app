@@ -23,7 +23,9 @@ import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withTagValue;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -57,6 +59,10 @@ is the same from javaJoke.
                 .check(matches(withText(R.string.button_text)));
         onView(withId(R.id.fragment_main_tell_joke_button))
                 .perform(click());
+
+
+        onView(withId(R.id.activity_main_textview_joke))
+                .check(matches(not(withText(isEmptyOrNullString()))));
 
         Joker joker = new Joker();
         onView(withId(R.id.activity_main_textview_joke))
