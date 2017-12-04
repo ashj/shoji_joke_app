@@ -16,16 +16,13 @@ import java.io.IOException;
 
 public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     private static JokerApi myApiService = null;
-    private Context mContext;
     private OnFetchJokeFinishedListener mOnFetchJokeHandler;
 
     public interface OnFetchJokeFinishedListener {
         void onFetchJokeFinished(String result);
     }
 
-    public EndpointsAsyncTask(Context context,
-                              OnFetchJokeFinishedListener onFetchJokeFinishedHandler) {
-        mContext = context;
+    public EndpointsAsyncTask(OnFetchJokeFinishedListener onFetchJokeFinishedHandler) {
         mOnFetchJokeHandler = onFetchJokeFinishedHandler;
     }
 

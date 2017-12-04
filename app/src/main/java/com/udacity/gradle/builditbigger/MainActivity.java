@@ -68,9 +68,8 @@ public class MainActivity extends AppCompatActivity
             mIdlingResource.setIdleState(false);
         }
 
-        Context context = this;
         EndpointsAsyncTask.OnFetchJokeFinishedListener handler = this;
-        new EndpointsAsyncTask(context, handler).execute();
+        new EndpointsAsyncTask(handler).execute();
     }
 
 
